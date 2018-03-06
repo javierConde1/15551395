@@ -1,0 +1,179 @@
+MySQL Shell 1.0.11
+
+Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type '\help' or '\?' for help; '\quit' to exit.
+
+Currently in JavaScript mode. Use \sql to switch to SQL mode and execute queries.
+mysql-js> \sql
+Switching to SQL mode... Commands end with ;
+mysql-sql> \connect -c root@localhost
+Creating a Classic Session to 'root@localhost'
+Enter password:
+Your MySQL connection id is 4
+Server version: 5.5.8-log MySQL Community Server (GPL)
+No default schema selected; type \use <schema> to set one.
+mysql-sql> create database mi_primer_BD;
+Query OK, 1 row affected (0.09 sec)
+mysql-sql> show databases;
++-----------------------+
+| Database              |
++-----------------------+
+| information_schema    |
+| cursosql              |
+| datoscoches           |
+| examen                |
+| inventario            |
+| mi_primer_bd          |
+| mysql                 |
+| performance_schema    |
+| practica12            |
+| problema1_normalizado |
+| test                  |
+| topicos               |
++-----------------------+
+12 rows in set (0.00 sec)
+mysql-sql> use mi_primer_bd;
+Query OK, 0 rows affected (0.00 sec)
+mysql-sql> show tables;
+Empty set (0.00 sec)
+mysql-sql> show tables;
++------------------------+
+| Tables_in_mi_primer_bd |
++------------------------+
+| tabla_1                |
++------------------------+
+1 row in set (0.00 sec)
+mysql-sql> drop databaseif exists xxxx;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'databaseif exists xxxx' at line 1
+mysql-sql> drop databaseif exists xxxx
+       ... ;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'databaseif exists xxxx' at line 1
+mysql-sql> drop database if exists xxxx
+       ... ;
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+Note (code 1008): Can't drop database 'xxxx'; database doesn't exist
+mysql-sql> drop database if exists mi_primer_bd;
+Query OK, 1 row affected (0.13 sec)
+mysql-sql> show databases;
++-----------------------+
+| Database              |
++-----------------------+
+| information_schema    |
+| cursosql              |
+| datoscoches           |
+| examen                |
+| inventario            |
+| mysql                 |
+| performance_schema    |
+| practica12            |
+| problema1_normalizado |
+| test                  |
+| topicos               |
++-----------------------+
+11 rows in set (0.00 sec)
+mysql-sql> create database mundo;
+Query OK, 1 row affected (0.00 sec)
+mysql-sql> create user 'mundo'@'localhost' identified by 'MUNDO';
+Query OK, 0 rows affected (0.08 sec)
+mysql-sql> grant all on mundo.* to mundo@localhost
+       ... ;
+Query OK, 0 rows affected (0.00 sec)
+mysql-sql> REVOKE ALL PRIVILEGES, GRANT OPTION FROM mundo@localhost;
+Query OK, 0 rows affected (0.00 sec)
+mysql-sql> grant all privileges on mundo.* to mundo@localhost with grant option;
+Query OK, 0 rows affected (0.00 sec)
+mysql-sql> show databases;
++-----------------------+
+| Database              |
++-----------------------+
+| information_schema    |
+| cursosql              |
+| datoscoches           |
+| examen                |
+| inventario            |
+| mundo                 |
+| mysql                 |
+| performance_schema    |
+| practica12            |
+| problema1_normalizado |
+| test                  |
+| topicos               |
++-----------------------+
+12 rows in set (0.00 sec)
+mysql-sql> \connect -c mundo@localhost
+Creating a Classic Session to 'mundo@localhost'
+Enter password: *****
+Closing old connection...
+Your MySQL connection id is 7
+Server version: 5.5.8-log MySQL Community Server (GPL)
+No default schema selected; type \use <schema> to set one.
+mysql-sql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mundo              |
+| test               |
++--------------------+
+3 rows in set (0.00 sec)
+mysql-sql> create table(
+       ...
+       ... ;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(' at line 1
+mysql-sql> create table paises(
+       ... paises_id;
+ERROR: 1046 (3D000): No database selected
+mysql-sql> use mundo;
+Query OK, 0 rows affected (0.00 sec)
+mysql-sql> \use mundo
+Schema set to `mundo`.
+mysql-sql> show tables;
+Empty set (0.00 sec)
+mysql-sql> create table paises(
+       ... paises_id int,
+       ... nombre varchar(50),
+       ... poblacion int,
+       ... capital varchar(50));
+Query OK, 0 rows affected (0.11 sec)
+mysql-sql> show tables;
++-----------------+
+| Tables_in_mundo |
++-----------------+
+| paises          |
++-----------------+
+1 row in set (0.00 sec)
+mysql-sql> desc paises;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| paises_id | int(11)     | YES  |     | null    |       |
+| nombre    | varchar(50) | YES  |     | null    |       |
+| poblacion | int(11)     | YES  |     | null    |       |
+| capital   | varchar(50) | YES  |     | null    |       |
++-----------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+mysql-sql> create table paises_copia like paises;
+Query OK, 0 rows affected (0.14 sec)
+mysql-sql> show tables;
++-----------------+
+| Tables_in_mundo |
++-----------------+
+| paises          |
+| paises_copia    |
++-----------------+
+2 rows in set (0.00 sec)
+mysql-sql> desc paises_copia;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| paises_id | int(11)     | YES  |     | null    |       |
+| nombre    | varchar(50) | YES  |     | null    |       |
+| poblacion | int(11)     | YES  |     | null    |       |
+| capital   | varchar(50) | YES  |     | null    |       |
++-----------+-------------+------+-----+---------+-------+
+4 rows in set (0.09 sec)

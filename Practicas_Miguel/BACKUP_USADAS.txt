@@ -1,0 +1,643 @@
+C:\wamp\bin\mysql\mysql5.5.8\bin>mysqldump -u root -p inventario
+Enter password:
+-- MySQL dump 10.13  Distrib 5.5.8, for Win32 (x86)
+--
+-- Host: localhost    Database: inventario
+-- ------------------------------------------------------
+-- Server version       5.5.8-log
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `clientes`
+--
+
+DROP TABLE IF EXISTS `clientes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `clientes` (
+  `no_cliente` int(11) NOT NULL,
+  `nombre` varchar(45) DEFAULT NULL,
+  `a_paterno` varchar(45) DEFAULT NULL,
+  `a_materno` varchar(45) DEFAULT NULL,
+  `dir` varchar(45) DEFAULT NULL,
+  `cp` int(11) DEFAULT NULL,
+  `cd` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`no_cliente`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `clientes`
+--
+
+LOCK TABLES `clientes` WRITE;
+/*!40000 ALTER TABLE `clientes` DISABLE KEYS */;
+INSERT INTO `clientes` VALUES (1,'Miguel','Balderrama','Marrufo','Colinas del Sol',31110,'Chihuahua'),(2,'Javier','Conde','Carrera','Dale',31022,'Gudalajara'),(3,'Daniela','Terrazas','Garcia','Chih 2000',31246,'Guadalajara'),(4,'Roberto','Lopez','Chavez','Unidad',31039,'Monterrey'),(5,'Jabeth','Garcia','Rodriguez','Arboledas',31005,'Chihuahua'),(6,'Karely','Aguilar','Arzate','Insurgentes',31205,'Monterrey'),(7,'Wendy','Venzor','Quezada','Zootecnia',31459,'Guadalajara'),(8,'Karen','Acosta','Lozano','Cerro de la Cruz',31478,'Chihuahua'),(9,'Jessica','Villanueva','Lopez','Alamedas',31749,'Monterrey'),(10,'Martin','Castillo','Chavez','Lomas Univerisdad',31623,'Chihuahua');
+/*!40000 ALTER TABLE `clientes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `empleados`
+--
+
+DROP TABLE IF EXISTS `empleados`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `empleados` (
+  `no_emepleado` int(11) NOT NULL,
+  `nombre_e` varchar(45) DEFAULT NULL,
+  `apellido_p` varchar(45) DEFAULT NULL,
+  `apellido_m` varchar(45) DEFAULT NULL,
+  `dir` varchar(45) DEFAULT NULL,
+  `cp` int(11) DEFAULT NULL,
+  `cd` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`no_emepleado`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `empleados`
+--
+
+LOCK TABLES `empleados` WRITE;
+/*!40000 ALTER TABLE `empleados` DISABLE KEYS */;
+INSERT INTO `empleados` VALUES (1,'Jose','Cazares','Decion','Saucito',15489,'Chihuahua'),(2,'Carlos','Lopez','Sanchez','Infonavit',14853,'Monterrey'),(3,'Luis','Flores','Martinez','Campo Bello',96784,'Guadalajara'),(4,'Pascual','Garay','Ordaz','Paseos',46982,'Monterrey'),(5,'Luis','Daniels','Olivas','Nombre de Dios',23687,'Guadalajara'),(6,'Juan','Lozoya','Miramontes','Diego Lucero',49657,'Chihuahua'),(7,'Luz','Ortega','Ochoa','Rosario',48122,'Monterrey'),(8,'Clara','Vega','Holguin','Panoramico',8953,'Monterrey'),(9,'Antonio','Aguirre','Contreras','San Pablo',45632,'Chihuahua'),(10,'David ','Figueroa','Trevizo','Colinas',12345,'Chihuahua');
+/*!40000 ALTER TABLE `empleados` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `inventario`
+--
+
+DROP TABLE IF EXISTS `inventario`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `inventario` (
+  `productos_clave_producto` varchar(10) NOT NULL,
+  `existencia` int(11) NOT NULL,
+  `inv_min` int(11) NOT NULL,
+  `inv_max` int(11) NOT NULL,
+  PRIMARY KEY (`productos_clave_producto`),
+  KEY `fk_inventario_productos1_idx` (`productos_clave_producto`),
+  CONSTRAINT `fk_inventario_productos1` FOREIGN KEY (`productos_clave_producto`) REFERENCES `productos` (`clave_producto`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `inventario`
+--
+
+LOCK TABLES `inventario` WRITE;
+/*!40000 ALTER TABLE `inventario` DISABLE KEYS */;
+INSERT INTO `inventario` VALUES ('1',156,100,200),('10',746,700,1500),('15',100,200,300),('16',450,620,1000),('2',561,300,600),('3',132,0,300),('4',513,100,700),('5',135,100,150),('6',843,500,1000),('7',495,400,550),('8',971,600,1100),('9',244,200,300);
+/*!40000 ALTER TABLE `inventario` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `productos`
+--
+
+DROP TABLE IF EXISTS `productos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `productos` (
+  `clave_producto` varchar(10) NOT NULL,
+  `descripcion` varchar(45) DEFAULT NULL,
+  `precio_unitario` float NOT NULL,
+  `precio_vta` float NOT NULL,
+  PRIMARY KEY (`clave_producto`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `productos`
+--
+
+LOCK TABLES `productos` WRITE;
+/*!40000 ALTER TABLE `productos` DISABLE KEYS */;
+INSERT INTO `productos` VALUES ('',NULL,0,0),('1','Manzana',5.65,7.9),('10','Sandia',20.17,28.46),('15','Jamon',5.98,7.59),('16','Lechuga',4.98,4.5),('2','Naranja',6.13,10.15),('3','Platano',7.18,16.14),('4','Pi+¦a',15.96,22.64),('5','Mandarina',10.64,14.16),('6','Pera',8.21,16.16),('7','Uva',2.05,4.64),('8','Guayaba',6.32,9.64),('9','Tomate',4.67,6.13);
+/*!40000 ALTER TABLE `productos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `proveedor`
+--
+
+DROP TABLE IF EXISTS `proveedor`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `proveedor` (
+  `no_proveedor` int(11) NOT NULL,
+  `clave_producto` varchar(10) NOT NULL,
+  `precio` float DEFAULT NULL,
+  PRIMARY KEY (`no_proveedor`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `proveedor`
+--
+
+LOCK TABLES `proveedor` WRITE;
+/*!40000 ALTER TABLE `proveedor` DISABLE KEYS */;
+INSERT INTO `proveedor` VALUES (1,'1',5.66),(2,'2',5.31),(3,'3',6.26),(4,'4',4.35),(5,'5',5.67),(6,'6',5.6),(7,'7',3.49),(8,'8',10.54),(9,'9',12.64),(10,'10',9.54),(11,'10',9.45);
+/*!40000 ALTER TABLE `proveedor` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `proveedor_has_productos`
+--
+
+DROP TABLE IF EXISTS `proveedor_has_productos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `proveedor_has_productos` (
+  `proveedor_no_proveedor` int(11) NOT NULL,
+  `productos_clave_producto` varchar(10) NOT NULL,
+  PRIMARY KEY (`proveedor_no_proveedor`,`productos_clave_producto`),
+  KEY `fk_proveedor_has_productos_productos1_idx` (`productos_clave_producto`),
+  KEY `fk_proveedor_has_productos_proveedor1_idx` (`proveedor_no_proveedor`),
+  CONSTRAINT `fk_proveedor_has_productos_productos1` FOREIGN KEY (`productos_clave_producto`) REFERENCES `productos` (`clave_producto`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_proveedor_has_productos_proveedor1` FOREIGN KEY (`proveedor_no_proveedor`) REFERENCES `proveedor` (`no_proveedor`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `proveedor_has_productos`
+--
+
+LOCK TABLES `proveedor_has_productos` WRITE;
+/*!40000 ALTER TABLE `proveedor_has_productos` DISABLE KEYS */;
+INSERT INTO `proveedor_has_productos` VALUES (1,'1'),(2,'2'),(3,'3'),(4,'4'),(5,'5'),(6,'6'),(7,'7'),(8,'8'),(9,'9'),(10,'10');
+/*!40000 ALTER TABLE `proveedor_has_productos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ventas`
+--
+
+DROP TABLE IF EXISTS `ventas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ventas` (
+  `no_venta` int(11) NOT NULL,
+  `fecha` date DEFAULT NULL,
+  `clientes_no_cliente` int(11) NOT NULL,
+  `productos_clave_producto` varchar(10) NOT NULL,
+  `empleados_no_emepleado` int(11) NOT NULL,
+  PRIMARY KEY (`no_venta`),
+  KEY `fk_ventas_clientes1_idx` (`clientes_no_cliente`),
+  KEY `fk_ventas_productos1_idx` (`productos_clave_producto`),
+  KEY `fk_ventas_empleados1_idx` (`empleados_no_emepleado`),
+  CONSTRAINT `fk_ventas_clientes1` FOREIGN KEY (`clientes_no_cliente`) REFERENCES `clientes` (`no_cliente`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_ventas_empleados1` FOREIGN KEY (`empleados_no_emepleado`) REFERENCES `empleados` (`no_emepleado`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_ventas_productos1` FOREIGN KEY (`productos_clave_producto`) REFERENCES `productos` (`clave_producto`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ventas`
+--
+
+LOCK TABLES `ventas` WRITE;
+/*!40000 ALTER TABLE `ventas` DISABLE KEYS */;
+INSERT INTO `ventas` VALUES (1,'2017-03-23',1,'1',2),(2,'2017-08-25',2,'2',2),(3,'2017-10-14',3,'3',3),(4,'2017-02-25',4,'4',4),(5,'2017-03-15',5,'5',5),(6,'2017-09-13',6,'6',6),(7,'2017-08-14',7,'7',7),(8,'2017-12-12',8,'8',8),(9,'2017-07-07',9,'9',9),(10,'2017-04-29',10,'10',10);
+/*!40000 ALTER TABLE `ventas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ventas_has_clientes`
+--
+
+DROP TABLE IF EXISTS `ventas_has_clientes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ventas_has_clientes` (
+  `ventas_no_venta` int(11) NOT NULL,
+  `clientes_no_cliente` int(11) NOT NULL,
+  PRIMARY KEY (`ventas_no_venta`,`clientes_no_cliente`),
+  KEY `fk_ventas_has_clientes_clientes1_idx` (`clientes_no_cliente`),
+  KEY `fk_ventas_has_clientes_ventas_idx` (`ventas_no_venta`),
+  CONSTRAINT `fk_ventas_has_clientes_clientes1` FOREIGN KEY (`clientes_no_cliente`) REFERENCES `clientes` (`no_cliente`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_ventas_has_clientes_ventas` FOREIGN KEY (`ventas_no_venta`) REFERENCES `ventas` (`no_venta`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ventas_has_clientes`
+--
+
+LOCK TABLES `ventas_has_clientes` WRITE;
+/*!40000 ALTER TABLE `ventas_has_clientes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ventas_has_clientes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ventas_has_clientes_has_productos`
+--
+
+DROP TABLE IF EXISTS `ventas_has_clientes_has_productos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ventas_has_clientes_has_productos` (
+  `ventas_has_clientes_ventas_no_venta` int(11) NOT NULL,
+  `ventas_has_clientes_clientes_no_cliente` int(11) NOT NULL,
+  `productos_clave_producto` varchar(10) NOT NULL,
+  PRIMARY KEY (`ventas_has_clientes_ventas_no_venta`,`ventas_has_clientes_clientes_no_cliente`,`productos_clave_producto`),
+  KEY `fk_ventas_has_clientes_has_productos_productos1_idx` (`productos_clave_producto`),
+  KEY `fk_ventas_has_clientes_has_productos_ventas_has_clientes1_idx` (`ventas_has_clientes_ventas_no_venta`,`ventas_has_clientes_clientes_no_cliente`),
+  CONSTRAINT `fk_ventas_has_clientes_has_productos_productos1` FOREIGN KEY (`productos_clave_producto`) REFERENCES `productos` (`clave_producto`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_ventas_has_clientes_has_productos_ventas_has_clientes1` FOREIGN KEY (`ventas_has_clientes_ventas_no_venta`, `ventas_has_clientes_clientes_no_cliente`) REFERENCES `ventas_has_clientes` (`ventas_no_venta`, `clientes_no_cliente`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ventas_has_clientes_has_productos`
+--
+
+LOCK TABLES `ventas_has_clientes_has_productos` WRITE;
+/*!40000 ALTER TABLE `ventas_has_clientes_has_productos` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ventas_has_clientes_has_productos` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2018-03-06  0:19:23
+
+C:\wamp\bin\mysql\mysql5.5.8\bin>mysqldump -u root -p inventario > inventario.sql
+Enter password:
+
+C:\wamp\bin\mysql\mysql5.5.8\bin>mysql -u root -p inventario_copy < C:\wamp\bin\mysql\mysql5.5.8\bin\inventario.sql
+Enter password:
+
+C:\wamp\bin\mysql\mysql5.5.8\bin>mysqldump -u root -p mundo
+Enter password:
+-- MySQL dump 10.13  Distrib 5.5.8, for Win32 (x86)
+--
+-- Host: localhost    Database: mundo
+-- ------------------------------------------------------
+-- Server version       5.5.8-log
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `ciudadano`
+--
+
+DROP TABLE IF EXISTS `ciudadano`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ciudadano` (
+  `id_ciudadano` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(15) NOT NULL,
+  `apellido` varchar(50) NOT NULL,
+  `edad` int(11) DEFAULT NULL,
+  `RFC` varchar(13) NOT NULL,
+  `lugar_nacimiento` varchar(50) DEFAULT 'Chihuahua',
+  `pais_nacimiento` varchar(20) DEFAULT 'MÔÇÜxico',
+  `genero` varchar(15) DEFAULT NULL,
+  PRIMARY KEY (`id_ciudadano`),
+  UNIQUE KEY `RFC` (`RFC`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ciudadano`
+--
+
+LOCK TABLES `ciudadano` WRITE;
+/*!40000 ALTER TABLE `ciudadano` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ciudadano` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ciudades`
+--
+
+DROP TABLE IF EXISTS `ciudades`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ciudades` (
+  `ciudades_id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) NOT NULL,
+  `poblacion` int(11) DEFAULT NULL,
+  PRIMARY KEY (`ciudades_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ciudades`
+--
+
+LOCK TABLES `ciudades` WRITE;
+/*!40000 ALTER TABLE `ciudades` DISABLE KEYS */;
+INSERT INTO `ciudades` VALUES (1,'Chihuahua',600000),(5,'Juarez',600000),(6,'Jimenez',600000);
+/*!40000 ALTER TABLE `ciudades` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `comida_mundo`
+--
+
+DROP TABLE IF EXISTS `comida_mundo`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `comida_mundo` (
+  `comida_id` int(11) DEFAULT NULL,
+  `nombre_comida` enum('TACOS','BURRITOS','CARNE ASADA','TLACOYOS') DEFAULT NULL,
+  `precio` decimal(10,2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `comida_mundo`
+--
+
+LOCK TABLES `comida_mundo` WRITE;
+/*!40000 ALTER TABLE `comida_mundo` DISABLE KEYS */;
+INSERT INTO `comida_mundo` VALUES (1,'',10.20),(1,'BURRITOS',10.20);
+/*!40000 ALTER TABLE `comida_mundo` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `copia_alumno`
+--
+
+DROP TABLE IF EXISTS `copia_alumno`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `copia_alumno` (
+  `ID` int(11) NOT NULL,
+  `Nom` varchar(45) CHARACTER SET utf8 NOT NULL,
+  `Ape` varchar(45) CHARACTER SET utf8 NOT NULL,
+  `Grupo_ID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `copia_alumno`
+--
+
+LOCK TABLES `copia_alumno` WRITE;
+/*!40000 ALTER TABLE `copia_alumno` DISABLE KEYS */;
+INSERT INTO `copia_alumno` VALUES (115,'Miguel','Balderrama',1),(116,'Javier','Conde',2),(117,'Karely','Aguilar',3),(118,'Daniela','Terrazas',4),(119,'Karla','Ramirez',2),(120,'Rubi ','Ochoa',5);
+/*!40000 ALTER TABLE `copia_alumno` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `oceanos`
+--
+
+DROP TABLE IF EXISTS `oceanos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `oceanos` (
+  `oceanos_id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) DEFAULT NULL,
+  `profundidad_media` int(11) DEFAULT '3000',
+  PRIMARY KEY (`oceanos_id`),
+  UNIQUE KEY `nombre` (`nombre`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `oceanos`
+--
+
+LOCK TABLES `oceanos` WRITE;
+/*!40000 ALTER TABLE `oceanos` DISABLE KEYS */;
+INSERT INTO `oceanos` VALUES (1,'Pacifico',4000),(2,'Indico',3000);
+/*!40000 ALTER TABLE `oceanos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `paises`
+--
+
+DROP TABLE IF EXISTS `paises`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `paises` (
+  `paises_id` int(11) DEFAULT NULL,
+  `nombre` varchar(50) DEFAULT NULL,
+  `poblacion` int(11) DEFAULT NULL,
+  `capital` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `paises`
+--
+
+LOCK TABLES `paises` WRITE;
+/*!40000 ALTER TABLE `paises` DISABLE KEYS */;
+/*!40000 ALTER TABLE `paises` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `paises_copia`
+--
+
+DROP TABLE IF EXISTS `paises_copia`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `paises_copia` (
+  `paises_id` int(11) DEFAULT NULL,
+  `nombre` varchar(50) DEFAULT NULL,
+  `poblacion` int(11) DEFAULT NULL,
+  `capital` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `paises_copia`
+--
+
+LOCK TABLES `paises_copia` WRITE;
+/*!40000 ALTER TABLE `paises_copia` DISABLE KEYS */;
+/*!40000 ALTER TABLE `paises_copia` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `viajero`
+--
+
+DROP TABLE IF EXISTS `viajero`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `viajero` (
+  `viajero_id` int(11) NOT NULL,
+  `articulo` varchar(40) DEFAULT NULL,
+  `viaticos` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `viajero`
+--
+
+LOCK TABLES `viajero` WRITE;
+/*!40000 ALTER TABLE `viajero` DISABLE KEYS */;
+INSERT INTO `viajero` VALUES (10,'maleta',50.20),(10,'',50.20);
+/*!40000 ALTER TABLE `viajero` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2018-03-06  0:21:11
+
+C:\wamp\bin\mysql\mysql5.5.8\bin>mysqldump -u root -p mundo > mundo.sql
+Enter password:
+
+C:\wamp\bin\mysql\mysql5.5.8\bin>mysql -u root -p mundo_copy < C:\wamp\bin\mysql\mysql5.5.8\bin\mundo.sql
+Enter password:
+
+C:\wamp\bin\mysql\mysql5.5.8\bin>mysqldump -u root -p topicos
+Enter password:
+-- MySQL dump 10.13  Distrib 5.5.8, for Win32 (x86)
+--
+-- Host: localhost    Database: topicos
+-- ------------------------------------------------------
+-- Server version       5.5.8-log
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `alumno`
+--
+
+DROP TABLE IF EXISTS `alumno`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `alumno` (
+  `ID` int(11) NOT NULL,
+  `Nom` varchar(45) NOT NULL,
+  `Ape` varchar(45) NOT NULL,
+  `Grupo_ID` int(11) NOT NULL,
+  PRIMARY KEY (`ID`,`Grupo_ID`),
+  KEY `fk_Alumno_Grupo_idx` (`Grupo_ID`),
+  CONSTRAINT `fk_Alumno_Grupo` FOREIGN KEY (`Grupo_ID`) REFERENCES `grupo` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `alumno`
+--
+
+LOCK TABLES `alumno` WRITE;
+/*!40000 ALTER TABLE `alumno` DISABLE KEYS */;
+INSERT INTO `alumno` VALUES (115,'Miguel','Balderrama',1),(116,'Javier','Conde',2),(117,'Karely','Aguilar',3),(118,'Daniela','Terrazas',4),(119,'Karla','Ramirez',2),(120,'Rubi ','Ochoa',5);
+/*!40000 ALTER TABLE `alumno` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `grupo`
+--
+
+DROP TABLE IF EXISTS `grupo`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `grupo` (
+  `ID` int(11) NOT NULL,
+  `Materia` varchar(45) NOT NULL,
+  `Capacidad` int(11) NOT NULL,
+  `Maestro_ID` int(11) NOT NULL,
+  PRIMARY KEY (`ID`,`Maestro_ID`),
+  KEY `fk_Grupo_Maestro1_idx` (`Maestro_ID`),
+  CONSTRAINT `fk_Grupo_Maestro1` FOREIGN KEY (`Maestro_ID`) REFERENCES `maestro` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `grupo`
+--
+
+LOCK TABLES `grupo` WRITE;
+/*!40000 ALTER TABLE `grupo` DISABLE KEYS */;
+INSERT INTO `grupo` VALUES (1,'Topicos',30,250),(2,'Lenguajes y Automatas',20,264),(3,'Principios Electricos',15,289),(4,'POO',30,256),(5,'Estructura de datos',30,290);
+/*!40000 ALTER TABLE `grupo` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `maestro`
+--
+
+DROP TABLE IF EXISTS `maestro`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `maestro` (
+  `ID` int(11) NOT NULL,
+  `Nom` varchar(45) NOT NULL,
+  `Ape` varchar(45) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `maestro`
+--
+
+LOCK TABLES `maestro` WRITE;
+/*!40000 ALTER TABLE `maestro` DISABLE KEYS */;
+INSERT INTO `maestro` VALUES (250,'Marisela','Caldera'),(256,'Ruben','Hernandez'),(264,'Lorena','Hernandez'),(289,'Luis','Arzola'),(290,'Adriana','Guigon');
+/*!40000 ALTER TABLE `maestro` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2018-03-06  0:21:54
+
+C:\wamp\bin\mysql\mysql5.5.8\bin>mysqldump -u root -p topicos > topicos.sql
+Enter password:
+
+C:\wamp\bin\mysql\mysql5.5.8\bin>mysql -u root -p topicos_copy < C:\wamp\bin\mysql\mysql5.5.8\bin\topicos.sql
+Enter password:

@@ -1,0 +1,700 @@
+MySQL Shell 1.0.11
+
+Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type '\help' or '\?' for help; '\quit' to exit.
+
+Currently in JavaScript mode. Use \sql to switch to SQL mode and execute queries.
+mysql-js> \sql
+Switching to SQL mode... Commands end with ;
+mysql-sql> \connect -c root@localhost
+Creating a Classic Session to 'root@localhost'
+Enter password:
+Your MySQL connection id is 24
+Server version: 5.5.8-log MySQL Community Server (GPL)
+No default schema selected; type \use <schema> to set one.
+
+*************************PUNTO 1*******************************************************************
+
+mysql-sql> create database ejercicios;
+Query OK, 1 row affected (0.03 sec)
+mysql-sql> create user 'usu_eva1'@'localhost' identified by 'USU1';
+Query OK, 0 rows affected (0.08 sec)
+mysql-sql> grant all on ejercicios.* to usu_eva1@localhost;
+Query OK, 0 rows affected (0.01 sec)
+mysql-sql> \connect -c usu_eva1@localhost
+Creating a Classic Session to 'usu_eva1@localhost'
+Enter password: ****
+Closing old connection...
+Your MySQL connection id is 25
+Server version: 5.5.8-log MySQL Community Server (GPL)
+No default schema selected; type \use <schema> to set one.
+mysql-sql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| ejercicios         |
+| test               |
++--------------------+
+3 rows in set (0.00 sec)
+mysql-sql> use ejercicios;
+Query OK, 0 rows affected (0.00 sec)
+
+*************************PUNTO 2*******************************************************************
+
+mysql-sql> create table alumno(
+       ... alumno_id int,
+       ... nom_alumno varchar(15),
+       ... ape_pat_alumno varchar(20),
+       ... ape_mat_alumno varchar(20),
+       ... no_control_alumno varchar(10));
+Query OK, 0 rows affected (0.13 sec)
+mysql-sql> desc alumno;
++-------------------+-------------+------+-----+---------+-------+
+| Field             | Type        | Null | Key | Default | Extra |
++-------------------+-------------+------+-----+---------+-------+
+| alumno_id         | int(11)     | YES  |     | null    |       |
+| nom_alumno        | varchar(15) | YES  |     | null    |       |
+| ape_pat_alumno    | varchar(20) | YES  |     | null    |       |
+| ape_mat_alumno    | varchar(20) | YES  |     | null    |       |
+| no_control_alumno | varchar(10) | YES  |     | null    |       |
++-------------------+-------------+------+-----+---------+-------+
+5 rows in set (0.03 sec)
+
+*************************PUNTO 3*******************************************************************
+
+mysql-sql> create table if not exists alumno(
+       ... alumno_id int,
+       ... nom_alumno varchar(15),
+       ... ape_pat_alumno varchar(20),
+       ... ape_mat_alumno varchar(20),
+       ... no_control_alumno varchar(10));
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+Note (code 1050): Table 'alumno' already exists
+
+*************************PUNTO 4*******************************************************************
+
+mysql-sql> create table dup_alumno like alumno;
+Query OK, 0 rows affected (0.12 sec)
+mysql-sql> show tables;
++----------------------+
+| Tables_in_ejercicios |
++----------------------+
+| alumno               |
+| dup_alumno           |
++----------------------+
+2 rows in set (0.00 sec)
+mysql-sql> desc dup_alumno;
++-------------------+-------------+------+-----+---------+-------+
+| Field             | Type        | Null | Key | Default | Extra |
++-------------------+-------------+------+-----+---------+-------+
+| alumno_id         | int(11)     | YES  |     | null    |       |
+| nom_alumno        | varchar(15) | YES  |     | null    |       |
+| ape_pat_alumno    | varchar(20) | YES  |     | null    |       |
+| ape_mat_alumno    | varchar(20) | YES  |     | null    |       |
+| no_control_alumno | varchar(10) | YES  |     | null    |       |
++-------------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+*************************PUNTO 5*******************************************************************
+
+mysql-sql> insert into alumno(alumno_id, nom_alumno, ape_pat_alumno, ape_mat_alumno, no_control_alumno)
+       ... values(1,'Miguel','Balderrama','Marrufo','15551395');
+Query OK, 1 row affected (0.11 sec)
+mysql-sql> insert into alumno(alumno_id, nom_alumno, ape_pat_alumno, ape_mat_alumno, no_control_alumno)
+       ... values(2,'Karely','Aguilar','Arzate','15551431');
+Query OK, 1 row affected (0.06 sec)
+mysql-sql> insert into alumno(alumno_id, nom_alumno, ape_pat_alumno, ape_mat_alumno, no_control_alumno)
+       ... values(3,'Javier','Conde','Carrera','15551429');
+Query OK, 1 row affected (0.13 sec)
+mysql-sql> insert into alumno(alumno_id, nom_alumno, ape_pat_alumno, ape_mat_alumno, no_control_alumno)
+       ... values(4,'Luis','Perez','Hernandez','15551236');
+Query OK, 1 row affected (0.09 sec)
+mysql-sql> insert into alumno(alumno_id, nom_alumno, ape_pat_alumno, ape_mat_alumno, no_control_alumno)
+       ... values(5,'Antonio','Lopez','Gonzalez','15551328');
+Query OK, 1 row affected (0.06 sec)
+mysql-sql> select * from alumno;
++-----------+------------+----------------+----------------+-------------------+
+| alumno_id | nom_alumno | ape_pat_alumno | ape_mat_alumno | no_control_alumno |
++-----------+------------+----------------+----------------+-------------------+
+|         1 | Miguel     | Balderrama     | Marrufo        | 15551395          |
+|         2 | Karely     | Aguilar        | Arzate         | 15551431          |
+|         3 | Javier     | Conde          | Carrera        | 15551429          |
+|         4 | Luis       | Perez          | Hernandez      | 15551236          |
+|         5 | Antonio    | Lopez          | Gonzalez       | 15551328          |
++-----------+------------+----------------+----------------+-------------------+
+5 rows in set (0.00 sec)
+mysql-sql> create table copy_alumno as select * from alumno;
+Query OK, 5 rows affected (0.16 sec)
+
+Records: 5  Duplicates: 0  Warnings: 0
+mysql-sql> select * from copy_alumno;
++-----------+------------+----------------+----------------+-------------------+
+| alumno_id | nom_alumno | ape_pat_alumno | ape_mat_alumno | no_control_alumno |
++-----------+------------+----------------+----------------+-------------------+
+|         1 | Miguel     | Balderrama     | Marrufo        | 15551395          |
+|         2 | Karely     | Aguilar        | Arzate         | 15551431          |
+|         3 | Javier     | Conde          | Carrera        | 15551429          |
+|         4 | Luis       | Perez          | Hernandez      | 15551236          |
+|         5 | Antonio    | Lopez          | Gonzalez       | 15551328          |
++-----------+------------+----------------+----------------+-------------------+
+5 rows in set (0.00 sec)
+
+*************************PUNTO 6*******************************************************************
+
+mysql-sql> create table carrera(
+       ... carrera_id int not null,
+       ... nombre_carrera varchar(30) not null,
+       ... creditos_carrera int not null);
+Query OK, 0 rows affected (0.09 sec)
+mysql-sql> desc carrera;
++------------------+-------------+------+-----+---------+-------+
+| Field            | Type        | Null | Key | Default | Extra |
++------------------+-------------+------+-----+---------+-------+
+| carrera_id       | int(11)     | NO   |     | null    |       |
+| nombre_carrera   | varchar(30) | NO   |     | null    |       |
+| creditos_carrera | int(11)     | NO   |     | null    |       |
++------------------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+*************************PUNTO 7*******************************************************************
+
+mysql-sql> create table docentes(
+       ... docentes_id int not null,
+       ... nombre_docente varchar(15) not null,
+       ... apellido_pat_docente varchar(15) not null,
+       ... apellido_mat_docente varchar(15) not null,
+       ... horas_plaza int not null default 8,
+       ... departamento_docente enum('Sistemas y Computacion','Ingenieria Industrial','Ciencias de la Tierra',
+       ... 'Ciencias Economico Administrativas','Ciencias Basicas'));
+Query OK, 0 rows affected (0.08 sec)
+mysql-sql> desc docentes;
++----------------------+----------------------------------------------------------------------------------------------------------------------------------------+------+-----+---------+-------+
+| Field                | Type                                                                                                                                   | Null | Key | Default | Extra |
++----------------------+----------------------------------------------------------------------------------------------------------------------------------------+------+-----+---------+-------+
+| docentes_id          | int(11)                                                                                                                                | NO   |     | null    |       |
+| nombre_docente       | varchar(15)                                                                                                                            | NO   |     | null    |       |
+| apellido_pat_docente | varchar(15)                                                                                                                            | NO   |     | null    |       |
+| apellido_mat_docente | varchar(15)                                                                                                                            | NO   |     | null    |       |
+| horas_plaza          | int(11)                                                                                                                                | NO   |     | 8       |       |
+| departamento_docente | enum('Sistemas y Computacion','Ingenieria Industrial','Ciencias de la Tierra','Ciencias Economico Administrativas','Ciencias Basicas') | YES  |     | null    |       |
++----------------------+----------------------------------------------------------------------------------------------------------------------------------------+------+-----+---------+-------+
+6 rows in set (0.01 sec)
+
+*************************PUNTO 8*******************************************************************
+
+mysql-sql> create table institutos(
+       ... instituto_id int,
+       ... nombre_instituto varchar(40) unique,
+       ... estado_instituto enum('Aguascalientes','Baja California','Baja California Sur','Campeche',
+       ... 'Coahuila','Colima','Chiapas','Chihuahua','Distrito Federal','Durando','Guanajuto','Guerrero',
+       ... 'Hidaldo','Jalisco','Mexico','Michoacan','Morelos','Nayarit','Nuevo Leon','Puebla','Queretaro',
+       ... 'Quintana Roo','San Luis Potosi','Sinaloa','Sonora','Tabasco','Tamaulipas','Tlaxcala',
+       ... 'Veracruz','Yucatan','Zacatecas'));
+Query OK, 0 rows affected (0.17 sec)
+mysql-sql> desc institutos;
++------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------+-----+---------+-------+
+| Field            | Type                                                                                                                                                                                                                                                                                                                                                                                          | Null | Key | Default | Extra |
++------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------+-----+---------+-------+
+| instituto_id     | int(11)                                                                                                                                                                                                                                                                                                                                                                                       | YES  |     | null    |       |
+| nombre_instituto | varchar(40)                                                                                                                                                                                                                                                                                                                                                                                   | YES  | UNI | null    |       |
+| estado_instituto | enum('Aguascalientes','Baja California','Baja California Sur','Campeche','Coahuila','Colima','Chiapas','Chihuahua','Distrito Federal','Durando','Guanajuto','Guerrero','Hidaldo','Jalisco','Mexico','Michoacan','Morelos','Nayarit','Nuevo Leon','Puebla','Queretaro','Quintana Roo','San Luis Potosi','Sinaloa','Sonora','Tabasco','Tamaulipas','Tlaxcala','Veracruz','Yucatan','Zacatecas') | YES  |     | null    |       |
++------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+*************************PUNTO 9*******************************************************************
+
+mysql-sql> alter table alumno change no_control_alumno no_control_alumno varchar(10) not null unique;
+Query OK, 5 rows affected (0.23 sec)
+
+Records: 5  Duplicates: 0  Warnings: 0
+mysql-sql> desc alumno;
++-------------------+-------------+------+-----+---------+-------+
+| Field             | Type        | Null | Key | Default | Extra |
++-------------------+-------------+------+-----+---------+-------+
+| alumno_id         | int(11)     | YES  |     | null    |       |
+| nom_alumno        | varchar(15) | YES  |     | null    |       |
+| ape_pat_alumno    | varchar(20) | YES  |     | null    |       |
+| ape_mat_alumno    | varchar(20) | YES  |     | null    |       |
+| no_control_alumno | varchar(10) | NO   | PRI | null    |       |
++-------------------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+*************************PUNTO 10*******************************************************************
+
+mysql-sql> alter table alumno change nom_alumno nombre_alumno varchar(15);
+Query OK, 5 rows affected (0.39 sec)
+
+Records: 5  Duplicates: 0  Warnings: 0
+mysql-sql> alter table alumno change ape_pat_alumno apellido_pat_alumno varchar(15);
+Query OK, 5 rows affected (0.28 sec)
+
+Records: 5  Duplicates: 0  Warnings: 0
+mysql-sql> alter table alumno change ape_mat_alumno apellido_mat_alumno varchar(15);
+Query OK, 5 rows affected (0.27 sec)
+
+Records: 5  Duplicates: 0  Warnings: 0
+mysql-sql> desc alumno;
++---------------------+-------------+------+-----+---------+-------+
+| Field               | Type        | Null | Key | Default | Extra |
++---------------------+-------------+------+-----+---------+-------+
+| alumno_id           | int(11)     | YES  |     | null    |       |
+| nombre_alumno       | varchar(15) | YES  |     | null    |       |
+| apellido_pat_alumno | varchar(15) | YES  |     | null    |       |
+| apellido_mat_alumno | varchar(15) | YES  |     | null    |       |
+| no_control_alumno   | varchar(10) | NO   | PRI | null    |       |
++---------------------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+*************************PUNTO 11*******************************************************************
+
+mysql-sql> alter table alumno change alumno_id alumno_id int not null key auto_increment;
+Query OK, 5 rows affected (0.31 sec)
+
+Records: 5  Duplicates: 0  Warnings: 0
+mysql-sql> desc alumno;
++---------------------+-------------+------+-----+---------+----------------+
+| Field               | Type        | Null | Key | Default | Extra          |
++---------------------+-------------+------+-----+---------+----------------+
+| alumno_id           | int(11)     | NO   | PRI | null    | auto_increment |
+| nombre_alumno       | varchar(15) | YES  |     | null    |                |
+| apellido_pat_alumno | varchar(15) | YES  |     | null    |                |
+| apellido_mat_alumno | varchar(15) | YES  |     | null    |                |
+| no_control_alumno   | varchar(10) | NO   | UNI | null    |                |
++---------------------+-------------+------+-----+---------+----------------+
+5 rows in set (0.03 sec)
+mysql-sql> alter table copy_alumno change alumno_id alumno_id int not null key auto_increment;
+Query OK, 5 rows affected (0.26 sec)
+
+Records: 5  Duplicates: 0  Warnings: 0
+mysql-sql> desc copy_alumno;
++-------------------+-------------+------+-----+---------+----------------+
+| Field             | Type        | Null | Key | Default | Extra          |
++-------------------+-------------+------+-----+---------+----------------+
+| alumno_id         | int(11)     | NO   | PRI | null    | auto_increment |
+| nom_alumno        | varchar(15) | YES  |     | null    |                |
+| ape_pat_alumno    | varchar(20) | YES  |     | null    |                |
+| ape_mat_alumno    | varchar(20) | YES  |     | null    |                |
+| no_control_alumno | varchar(10) | YES  |     | null    |                |
++-------------------+-------------+------+-----+---------+----------------+
+5 rows in set (0.03 sec)
+mysql-sql> alter table carrera change carrera_id carrera_id int not null key auto_increment;
+Query OK, 0 rows affected (0.23 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+mysql-sql> desc carrera;
++------------------+-------------+------+-----+---------+----------------+
+| Field            | Type        | Null | Key | Default | Extra          |
++------------------+-------------+------+-----+---------+----------------+
+| carrera_id       | int(11)     | NO   | PRI | null    | auto_increment |
+| nombre_carrera   | varchar(30) | NO   |     | null    |                |
+| creditos_carrera | int(11)     | NO   |     | null    |                |
++------------------+-------------+------+-----+---------+----------------+
+3 rows in set (0.03 sec)
+mysql-sql> alter table docentes change docentes_id docentes_id int not null key auto_increment;
+Query OK, 0 rows affected (0.27 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+mysql-sql> desc docentes;
++----------------------+----------------------------------------------------------------------------------------------------------------------------------------+------+-----+---------+----------------+
+| Field                | Type                                                                                                                                   | Null | Key | Default | Extra          |
++----------------------+----------------------------------------------------------------------------------------------------------------------------------------+------+-----+---------+----------------+
+| docentes_id          | int(11)                                                                                                                                | NO   | PRI | null    | auto_increment |
+| nombre_docente       | varchar(15)                                                                                                                            | NO   |     | null    |                |
+| apellido_pat_docente | varchar(15)                                                                                                                            | NO   |     | null    |                |
+| apellido_mat_docente | varchar(15)                                                                                                                            | NO   |     | null    |                |
+| horas_plaza          | int(11)                                                                                                                                | NO   |     | 8       |                |
+| departamento_docente | enum('Sistemas y Computacion','Ingenieria Industrial','Ciencias de la Tierra','Ciencias Economico Administrativas','Ciencias Basicas') | YES  |     | null    |                |
++----------------------+----------------------------------------------------------------------------------------------------------------------------------------+------+-----+---------+----------------+
+6 rows in set (0.02 sec)
+mysql-sql> alter table institutos change instituto_id instituto_id int not null key auto_increment;
+Query OK, 0 rows affected (0.24 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+mysql-sql> desc institutos;
++------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------+-----+---------+----------------+
+| Field            | Type                                                                                                                                                                                                                                                                                                                                                                                          | Null | Key | Default | Extra          |
++------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------+-----+---------+----------------+
+| instituto_id     | int(11)                                                                                                                                                                                                                                                                                                                                                                                       | NO   | PRI | null    | auto_increment |
+| nombre_instituto | varchar(40)                                                                                                                                                                                                                                                                                                                                                                                   | YES  | UNI | null    |                |
+| estado_instituto | enum('Aguascalientes','Baja California','Baja California Sur','Campeche','Coahuila','Colima','Chiapas','Chihuahua','Distrito Federal','Durando','Guanajuto','Guerrero','Hidaldo','Jalisco','Mexico','Michoacan','Morelos','Nayarit','Nuevo Leon','Puebla','Queretaro','Quintana Roo','San Luis Potosi','Sinaloa','Sonora','Tabasco','Tamaulipas','Tlaxcala','Veracruz','Yucatan','Zacatecas') | YES  |     | null    |                |
++------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------+-----+---------+----------------+
+3 rows in set (0.01 sec)
+
+
+*************************PUNTO 12*******************************************************************
+
+
+Microsoft Windows [Versión 10.0.16299.192]
+(c) 2017 Microsoft Corporation. Todos los derechos reservados.
+
+C:\Users\Toshiba>cd..
+
+C:\Users>cd..
+
+C:\>cd wamp
+
+C:\wamp>cd bin
+
+C:\wamp\bin>cd mysql
+
+C:\wamp\bin\mysql>cd mysql5.5.8
+
+C:\wamp\bin\mysql\mysql5.5.8>cd bin
+
+C:\wamp\bin\mysql\mysql5.5.8\bin>mysqldump -u root -p ejercicios
+Enter password:
+-- MySQL dump 10.13  Distrib 5.5.8, for Win32 (x86)
+--
+-- Host: localhost    Database: ejercicios
+-- ------------------------------------------------------
+-- Server version       5.5.8-log
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `alumno`
+--
+
+DROP TABLE IF EXISTS `alumno`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `alumno` (
+  `alumno_id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre_alumno` varchar(15) DEFAULT NULL,
+  `apellido_pat_alumno` varchar(15) DEFAULT NULL,
+  `apellido_mat_alumno` varchar(15) DEFAULT NULL,
+  `no_control_alumno` varchar(10) NOT NULL,
+  PRIMARY KEY (`alumno_id`),
+  UNIQUE KEY `no_control_alumno` (`no_control_alumno`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `alumno`
+--
+
+LOCK TABLES `alumno` WRITE;
+/*!40000 ALTER TABLE `alumno` DISABLE KEYS */;
+INSERT INTO `alumno` VALUES (1,'Miguel','Balderrama','Marrufo','15551395'),(2,'Karely','Aguilar','Arzate','15551431'),(3,'Javier','Conde','Carrera','15551429'),(4,'Luis','Perez','Hernandez','15551236'),(5,'Antonio','Lopez','Gonzalez','15551328');
+/*!40000 ALTER TABLE `alumno` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `carrera`
+--
+
+DROP TABLE IF EXISTS `carrera`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `carrera` (
+  `carrera_id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre_carrera` varchar(30) NOT NULL,
+  `creditos_carrera` int(11) NOT NULL,
+  PRIMARY KEY (`carrera_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `carrera`
+--
+
+LOCK TABLES `carrera` WRITE;
+/*!40000 ALTER TABLE `carrera` DISABLE KEYS */;
+/*!40000 ALTER TABLE `carrera` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `copy_alumno`
+--
+
+DROP TABLE IF EXISTS `copy_alumno`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `copy_alumno` (
+  `alumno_id` int(11) NOT NULL AUTO_INCREMENT,
+  `nom_alumno` varchar(15) DEFAULT NULL,
+  `ape_pat_alumno` varchar(20) DEFAULT NULL,
+  `ape_mat_alumno` varchar(20) DEFAULT NULL,
+  `no_control_alumno` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`alumno_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `copy_alumno`
+--
+
+LOCK TABLES `copy_alumno` WRITE;
+/*!40000 ALTER TABLE `copy_alumno` DISABLE KEYS */;
+INSERT INTO `copy_alumno` VALUES (1,'Miguel','Balderrama','Marrufo','15551395'),(2,'Karely','Aguilar','Arzate','15551431'),(3,'Javier','Conde','Carrera','15551429'),(4,'Luis','Perez','Hernandez','15551236'),(5,'Antonio','Lopez','Gonzalez','15551328');
+/*!40000 ALTER TABLE `copy_alumno` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `docentes`
+--
+
+DROP TABLE IF EXISTS `docentes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `docentes` (
+  `docentes_id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre_docente` varchar(15) NOT NULL,
+  `apellido_pat_docente` varchar(15) NOT NULL,
+  `apellido_mat_docente` varchar(15) NOT NULL,
+  `horas_plaza` int(11) NOT NULL DEFAULT '8',
+  `departamento_docente` enum('Sistemas y Computacion','Ingenieria Industrial','Ciencias de la Tierra','Ciencias Economico Administrativas','Ciencias Basicas') DEFAULT NULL,
+  PRIMARY KEY (`docentes_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `docentes`
+--
+
+LOCK TABLES `docentes` WRITE;
+/*!40000 ALTER TABLE `docentes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `docentes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `dup_alumno`
+--
+
+DROP TABLE IF EXISTS `dup_alumno`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `dup_alumno` (
+  `alumno_id` int(11) DEFAULT NULL,
+  `nom_alumno` varchar(15) DEFAULT NULL,
+  `ape_pat_alumno` varchar(20) DEFAULT NULL,
+  `ape_mat_alumno` varchar(20) DEFAULT NULL,
+  `no_control_alumno` varchar(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `dup_alumno`
+--
+
+LOCK TABLES `dup_alumno` WRITE;
+/*!40000 ALTER TABLE `dup_alumno` DISABLE KEYS */;
+/*!40000 ALTER TABLE `dup_alumno` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `institutos`
+--
+
+DROP TABLE IF EXISTS `institutos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `institutos` (
+  `instituto_id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre_instituto` varchar(40) DEFAULT NULL,
+  `estado_instituto` enum('Aguascalientes','Baja California','Baja California Sur','Campeche','Coahuila','Colima','Chiapas','Chihuahua','Distrito Federal','Durando','Guanajuto','Guerrero','Hidaldo','Jalisco','Mexico','Michoacan','Morelos','Nayarit','Nuevo Leon','Puebla','Queretaro','Quintana Roo','San Luis Potosi','Sinaloa','Sonora','Tabasco','Tamaulipas','Tlaxcala','Veracruz','Yucatan','Zacatecas') DEFAULT NULL,
+  PRIMARY KEY (`instituto_id`),
+  UNIQUE KEY `nombre_instituto` (`nombre_instituto`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `institutos`
+--
+
+LOCK TABLES `institutos` WRITE;
+/*!40000 ALTER TABLE `institutos` DISABLE KEYS */;
+/*!40000 ALTER TABLE `institutos` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2018-03-05 23:54:42
+
+C:\wamp\bin\mysql\mysql5.5.8\bin>mysqldump -u root -p ejercicios > copy12.sql
+Enter password:
+
+C:\wamp\bin\mysql\mysql5.5.8\bin>mysql -u root -p ejercicios_copy12 < C:\wamp\bin\mysql\mysql5.5.8\bin\copy12.sql
+Enter password:
+
+
+*************************PUNTO 13*******************************************************************
+
+
+C:\wamp\bin\mysql\mysql5.5.8\bin>mysqldump -u root -p ejercicios alumno
+Enter password:
+-- MySQL dump 10.13  Distrib 5.5.8, for Win32 (x86)
+--
+-- Host: localhost    Database: ejercicios
+-- ------------------------------------------------------
+-- Server version       5.5.8-log
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `alumno`
+--
+
+DROP TABLE IF EXISTS `alumno`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `alumno` (
+  `alumno_id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre_alumno` varchar(15) DEFAULT NULL,
+  `apellido_pat_alumno` varchar(15) DEFAULT NULL,
+  `apellido_mat_alumno` varchar(15) DEFAULT NULL,
+  `no_control_alumno` varchar(10) NOT NULL,
+  PRIMARY KEY (`alumno_id`),
+  UNIQUE KEY `no_control_alumno` (`no_control_alumno`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `alumno`
+--
+
+LOCK TABLES `alumno` WRITE;
+/*!40000 ALTER TABLE `alumno` DISABLE KEYS */;
+INSERT INTO `alumno` VALUES (1,'Miguel','Balderrama','Marrufo','15551395'),(2,'Karely','Aguilar','Arzate','15551431'),(3,'Javier','Conde','Carrera','15551429'),(4,'Luis','Perez','Hernandez','15551236'),(5,'Antonio','Lopez','Gonzalez','15551328');
+/*!40000 ALTER TABLE `alumno` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2018-03-06  0:10:56
+
+C:\wamp\bin\mysql\mysql5.5.8\bin>mysqldump -u root -p ejercicios alumno > copy13.sql
+Enter password:
+
+C:\wamp\bin\mysql\mysql5.5.8\bin>mysql -u root -p ejercicios_copy13 < C:\wamp\bin\mysql\mysql5.5.8\bin\copy13.sql
+Enter password:
+
+
+*************************PUNTO 14*******************************************************************
+
+
+C:\wamp\bin\mysql\mysql5.5.8\bin>mysqldump -u root -p ejercicios alumno carrera
+Enter password:
+-- MySQL dump 10.13  Distrib 5.5.8, for Win32 (x86)
+--
+-- Host: localhost    Database: ejercicios
+-- ------------------------------------------------------
+-- Server version       5.5.8-log
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `alumno`
+--
+
+DROP TABLE IF EXISTS `alumno`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `alumno` (
+  `alumno_id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre_alumno` varchar(15) DEFAULT NULL,
+  `apellido_pat_alumno` varchar(15) DEFAULT NULL,
+  `apellido_mat_alumno` varchar(15) DEFAULT NULL,
+  `no_control_alumno` varchar(10) NOT NULL,
+  PRIMARY KEY (`alumno_id`),
+  UNIQUE KEY `no_control_alumno` (`no_control_alumno`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `alumno`
+--
+
+LOCK TABLES `alumno` WRITE;
+/*!40000 ALTER TABLE `alumno` DISABLE KEYS */;
+INSERT INTO `alumno` VALUES (1,'Miguel','Balderrama','Marrufo','15551395'),(2,'Karely','Aguilar','Arzate','15551431'),(3,'Javier','Conde','Carrera','15551429'),(4,'Luis','Perez','Hernandez','15551236'),(5,'Antonio','Lopez','Gonzalez','15551328');
+/*!40000 ALTER TABLE `alumno` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `carrera`
+--
+
+DROP TABLE IF EXISTS `carrera`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `carrera` (
+  `carrera_id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre_carrera` varchar(30) NOT NULL,
+  `creditos_carrera` int(11) NOT NULL,
+  PRIMARY KEY (`carrera_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `carrera`
+--
+
+LOCK TABLES `carrera` WRITE;
+/*!40000 ALTER TABLE `carrera` DISABLE KEYS */;
+/*!40000 ALTER TABLE `carrera` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2018-03-06  0:14:38
+
+C:\wamp\bin\mysql\mysql5.5.8\bin>mysqldump -u root -p ejercicios alumno carrera > copy14.sql
+Enter password:
+
+C:\wamp\bin\mysql\mysql5.5.8\bin>mysql -u root -p ejercicios_copy14 < C:\wamp\bin\mysql\mysql5.5.8\bin\copy14.sql
+Enter password:
